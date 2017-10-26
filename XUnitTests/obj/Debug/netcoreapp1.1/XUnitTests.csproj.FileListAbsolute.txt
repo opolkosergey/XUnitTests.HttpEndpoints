@@ -1,0 +1,12 @@
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\xunit.runner.utility.netstandard15.dll
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\xunit.runner.reporters.netstandard15.dll
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.deps.json
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.runtimeconfig.json
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.runtimeconfig.dev.json
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.dll
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.pdb
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.csprojResolveAssemblyReference.cache
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.AssemblyInfo.cs
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.dll
+c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.pdb
