@@ -1,0 +1,14 @@
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netcoreapp10.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\xunit.runner.utility.netcoreapp10.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\XUnitTests.deps.json
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\XUnitTests.runtimeconfig.json
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\XUnitTests.runtimeconfig.dev.json
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\XUnitTests.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp2.0\XUnitTests.pdb
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp2.0\XUnitTests.csprojResolveAssemblyReference.cache
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp2.0\XUnitTests.csproj.CoreCompileInputs.cache
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp2.0\XUnitTests.AssemblyInfoInputs.cache
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp2.0\XUnitTests.AssemblyInfo.cs
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp2.0\XUnitTests.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp2.0\XUnitTests.pdb

@@ -10,3 +10,17 @@ c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\
 c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.AssemblyInfo.cs
 c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.dll
 c:\users\sergey\documents\visual studio 2017\Projects\XUnitTests\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.pdb
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.pdb
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\xunit.runner.reporters.netcoreapp10.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\xunit.runner.utility.netcoreapp10.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.deps.json
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.runtimeconfig.json
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.runtimeconfig.dev.json
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.dll
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\bin\Debug\netcoreapp1.1\XUnitTests.pdb
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.csprojResolveAssemblyReference.cache
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.csproj.CoreCompileInputs.cache
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.AssemblyInfoInputs.cache
+D:\Repository\XUnitTests.HttpEndpoints\XUnitTests\obj\Debug\netcoreapp1.1\XUnitTests.AssemblyInfo.cs

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -13,6 +14,8 @@ namespace XUnitTests.EndPoints.Base
         {
             public TResponseModel ResponseModel { get; set; }
 
+            public HttpResponseHeaders ResponseHeaders { get; set; }
+
             public HttpStatusCode HttpStatusCode { get; set; }
         }
 
@@ -22,28 +25,25 @@ namespace XUnitTests.EndPoints.Base
 
         public abstract HttpMethod HttpMethod { get; }
 
-        //public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
-
-        //public HttpEndPoint<TResponseModel> WithHeader(KeyValuePair<string, string> header)
-        //{
-        //    Headers.Add(header.Key, header.Value);
-
-        //    return this;
-        //}
+        public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
 
         public async Task<HttpEndPointResult> GetResult()
         {
+            var httpEndpointResult = new HttpEndPointResult();
+
             TResponseModel responseModel;
-            HttpStatusCode httpStatusCode;
 
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Uri, UriKind.Absolute);
                 var requestMessage = CreateRequest();
 
+                AddHeadersToRequest(requestMessage);
+
                 var response = await client.SendAsync(requestMessage);
 
-                httpStatusCode = response.StatusCode;
+                httpEndpointResult.ResponseHeaders = response.Headers;
+                httpEndpointResult.HttpStatusCode = response.StatusCode;
 
                 var content = await response.Content.ReadAsStringAsync();
 
@@ -57,16 +57,29 @@ namespace XUnitTests.EndPoints.Base
                 }
             }
 
-            return new HttpEndPointResult
-            {
-                ResponseModel = responseModel,
-                HttpStatusCode = httpStatusCode
-            };
+            httpEndpointResult.ResponseModel = responseModel;
+
+            return httpEndpointResult;
+        }
+
+        public HttpEndPoint<TResponseModel> WithHeader(string header, string headerValue)
+        {
+            RequestHeaders.Add(header, headerValue);
+
+            return this;
         }
 
         protected virtual HttpRequestMessage CreateRequest()
         {
-            return new HttpRequestMessage(HttpMethod, RequestUri ?? "/");            
-        }        
+            return new HttpRequestMessage(HttpMethod, RequestUri ?? "/");
+        }
+
+        private void AddHeadersToRequest(HttpRequestMessage requestMessage)
+        {
+            foreach (var header in RequestHeaders)
+            {
+                requestMessage.Headers.Add(header.Key, header.Value);
+            }
+        }
     }
 }
