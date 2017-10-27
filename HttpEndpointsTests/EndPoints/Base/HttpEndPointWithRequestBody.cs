@@ -1,4 +1,4 @@
-﻿namespace XUnitTests.EndPoints.Base
+﻿namespace HttpEndpointsTests.EndPoints.Base
 {
     public abstract class HttpEndPointWithRequestBody<TRequestBodyModel, TReponseModel> : HttpEndPoint<TReponseModel> where TReponseModel : class
     {

@@ -1,10 +1,11 @@
+using System;
 using System.Net;
 using System.Threading.Tasks;
+using HttpEndpointsTests.EndPoints.GithubSearchEndpoint;
+using HttpEndpointsTests.EndPoints.TutByHomePageEndPoint;
 using Xunit;
-using XUnitTests.EndPoints.GithubSearchEndpoint;
-using XUnitTests.EndPoints.TutByHomePageEndPoint;
 
-namespace XUnitTests
+namespace HttpEndpointsTests
 {
     public class UnitTests
     {

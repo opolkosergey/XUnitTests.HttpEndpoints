@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace XUnitTests.EndPoints.GithubSearchEndpoint
+namespace HttpEndpointsTests.EndPoints.GithubSearchEndpoint
 {
     public class GithubSearchHelpResponseModel
     {

@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace XUnitTests.EndPoints.Base
+namespace HttpEndpointsTests.EndPoints.Base
 {
     public abstract class HttpEndPoint<TResponseModel> where TResponseModel : class
     {

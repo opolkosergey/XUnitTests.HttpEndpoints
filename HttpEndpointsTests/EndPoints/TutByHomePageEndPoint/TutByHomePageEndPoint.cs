@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
-using XUnitTests.EndPoints.Base;
+using HttpEndpointsTests.EndPoints.Base;
 
-namespace XUnitTests.EndPoints.TutByHomePageEndPoint
+namespace HttpEndpointsTests.EndPoints.TutByHomePageEndPoint
 {
     public class TutByHomePageEndPoint : HttpEndPoint<string>
     {        

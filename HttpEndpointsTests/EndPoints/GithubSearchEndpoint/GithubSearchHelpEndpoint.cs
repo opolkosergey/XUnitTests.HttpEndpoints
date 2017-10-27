@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
-using XUnitTests.EndPoints.Base;
+using HttpEndpointsTests.EndPoints.Base;
 
-namespace XUnitTests.EndPoints.GithubSearchEndpoint
+namespace HttpEndpointsTests.EndPoints.GithubSearchEndpoint
 {
     public class GithubSearchHelpEndpoint : HttpEndPoint<GithubSearchHelpResponseModel>
     {
