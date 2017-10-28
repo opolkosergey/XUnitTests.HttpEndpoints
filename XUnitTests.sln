@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTests", "XUnitTests\XUnitTests.csproj", "{3BF1EE2D-E011-4208-881F-020E8DB0D09E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpEndpointsTests", "HttpEndpointsTests\HttpEndpointsTests.csproj", "{ED4E9882-7138-4EC7-BBFB-84771D55C8AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3BF1EE2D-E011-4208-881F-020E8DB0D09E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BF1EE2D-E011-4208-881F-020E8DB0D09E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BF1EE2D-E011-4208-881F-020E8DB0D09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BF1EE2D-E011-4208-881F-020E8DB0D09E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED4E9882-7138-4EC7-BBFB-84771D55C8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED4E9882-7138-4EC7-BBFB-84771D55C8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED4E9882-7138-4EC7-BBFB-84771D55C8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED4E9882-7138-4EC7-BBFB-84771D55C8AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
