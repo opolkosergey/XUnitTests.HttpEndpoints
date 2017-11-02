@@ -1,0 +1,18 @@
+#Folders to ignore
+.idea
+.vscode
+.vs
+lib
+
+*~
+*.suo
+*.csproj.user
+*.dll
+[Oo]bj/
+[Bb]in/
+[Dd]ebug*/
+[Rr]elease*/
+
+node_modules
+
+packages
