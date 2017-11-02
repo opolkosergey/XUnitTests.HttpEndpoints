@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
-namespace HttpEndpointsTests.EndPoints.Base
+namespace XUnitTests.Core.Base
 {
     public abstract class HttpEndPoint<TResponseModel> where TResponseModel : class
     {

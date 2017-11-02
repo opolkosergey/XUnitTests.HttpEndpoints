@@ -17,7 +17,7 @@ namespace HttpEndpointsTests
             var result = await endpoint.GetResult();
 
             Assert.Equal(HttpStatusCode.OK, result.HttpStatusCode);
-            Assert.NotEqual(null, result.ResponseModel);
+            Assert.NotNull(result.ResponseModel);
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace HttpEndpointsTests
             var result = await endpoint.GetResult();
 
             Assert.Equal(HttpStatusCode.OK, result.HttpStatusCode);
-            Assert.NotEqual(null, result.ResponseModel);
+            Assert.NotNull(result.ResponseModel);
         }
     }
 }
