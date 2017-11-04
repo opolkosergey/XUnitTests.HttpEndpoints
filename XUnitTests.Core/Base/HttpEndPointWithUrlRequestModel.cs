@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using System.Text;
+﻿using System;
+using System.Net.Http;
 using XUnitTests.Core.Helpers;
 
 namespace XUnitTests.Core.Base
@@ -16,26 +16,15 @@ namespace XUnitTests.Core.Base
         }
 
         protected override HttpRequestMessage CreateRequest()
-        {
-            var requestUri = new StringBuilder();
-
-            if (!string.IsNullOrEmpty(RequestUri))
+        {            
+            if (string.IsNullOrEmpty(RequestUri))
             {
-                requestUri.Append(RequestUri);
+                throw new ArgumentException($"Parametr {nameof(RequestUri)} is required.");
             }
 
-            var requestModelUri = RequestHelper.CreateUrlUsingRequestModel(UrlRequestModel);
+            string requestUri = RequestHelper.CreateUrlUsingRequestModel(RequestUri, UrlRequestModel) ?? "/";
 
-            if (requestModelUri == null)
-            {
-                requestUri.Append("/");                
-            }
-            else
-            {
-                requestUri.Append($"?{requestModelUri}");
-            }
-            
-            return new HttpRequestMessage(HttpMethod, requestUri.ToString());
+            return new HttpRequestMessage(HttpMethod, requestUri);
         }
     }
 }

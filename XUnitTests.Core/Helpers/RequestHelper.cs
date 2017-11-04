@@ -10,6 +10,7 @@ namespace XUnitTests.Core.Helpers
 {
     internal static class RequestHelper
     {
+        // TODO add parameter for content type.
         public static void AddRequestBody(HttpRequestMessage httpRequestMessage, object body)
         {
             if (body != null)
@@ -18,41 +19,75 @@ namespace XUnitTests.Core.Helpers
             }
         }
 
-        public static string CreateUrlUsingRequestModel<T>(T requestModel)
+        public static string CreateUrlUsingRequestModel<T>(string requestUri, T requestModel)
         {
             if (requestModel == null)
             {
-                return null;
+                return requestUri;
             }
-           
-            var collectionValues = new List<string>();
-            var properties = requestModel.GetType().GetProperties();
+
+            var keyValueParameters = new List<string>();
+            var uriSegments = GetUriSegments(requestUri);
             
+            var properties = requestModel.GetType().GetProperties();            
             foreach (var property in properties)
             {
                 var value = property.GetValue(requestModel);
 
                 if (value != null)
                 {
-                    var isIEnumerable = value is IEnumerable;
-
-                    if (isIEnumerable)
+                    var uriSegment = uriSegments.SingleOrDefault(x => x == property.Name.ToLower());                    
+                    if (uriSegment != null)
                     {
-                        var collection = value as IEnumerable;
-                                                
-                        foreach (var item in collection)
-                        {
-                            collectionValues.Add($"{property.Name}={item.ToString()}");
-                        }
+                        requestUri = requestUri.Replace("{" + uriSegment + "}", value.ToString());
                     }
                     else
                     {
-                        collectionValues.Add($"{property.Name}={value.ToString()}");
+                        AddModelValueAsParametr<T>(value, keyValueParameters, property);
                     }
                 }
             }
             
-            return collectionValues.Any() ? string.Join("&", collectionValues) : null;
+            return keyValueParameters.Any() ? $"{requestUri}?{string.Join("&", keyValueParameters)}" : requestUri;
+        }
+
+        private static void AddModelValueAsParametr<T>(object value, List<string> keyValueParameters, PropertyInfo property)
+        {
+            if (value is IEnumerable)
+            {
+                var collection = value as IEnumerable;
+                foreach (var item in collection)
+                {
+                    keyValueParameters.Add($"{property.Name}={item.ToString()}");
+                }
+            }
+            else
+            {
+                keyValueParameters.Add($"{property.Name}={value.ToString()}");
+            }
+        }
+
+        private static List<string> GetUriSegments(string requestUri)
+        {
+            var uriSegments = new List<string>();
+
+            while (true)
+            {
+                var startIndex = requestUri.IndexOf('{');
+                var endIndex = requestUri.IndexOf('}');
+
+                if (startIndex != -1 && endIndex != -1)
+                {
+                    uriSegments.Add(requestUri.Substring(startIndex + 1, endIndex - startIndex - 1).ToLower());                    
+                    requestUri = requestUri.Substring(endIndex + 1);
+                }
+                else
+                {
+                    break;
+                }                
+            }            
+
+            return uriSegments;
         }
     }
 }
