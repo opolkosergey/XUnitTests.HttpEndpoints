@@ -5,10 +5,10 @@ namespace HttpEndpointsTests.EndPoints.GithubSearchEndpoint
 {
     public class GithubSearchHelpEndpoint : HttpEndPoint<GithubSearchHelpResponseModel>
     {
-        public override string Uri => "https://help.github.com";
+        protected override string Uri => "https://help.github.com";
 
-        public override string RequestUri => "/search/search.json";
+        protected override string RequestUri => "/search/search.json";
 
-        public override HttpMethod HttpMethod => HttpMethod.Get;
+        protected override HttpMethod HttpMethod => HttpMethod.Get;
     }
 }

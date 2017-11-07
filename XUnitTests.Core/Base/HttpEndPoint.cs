@@ -19,13 +19,15 @@ namespace XUnitTests.Core.Base
             public HttpStatusCode HttpStatusCode { get; set; }
         }
 
-        public abstract string Uri { get; }
+        protected abstract string Uri { get; }
 
-        public abstract string RequestUri { get; }
+        protected abstract string RequestUri { get; }
 
-        public abstract HttpMethod HttpMethod { get; }
+        protected abstract HttpMethod HttpMethod { get; }
 
-        public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
+        private Dictionary<string, string> RequestHeaders { get; } = new Dictionary<string, string>();
+        
+        private List<string> ExcludedRequestHeaders { get; }= new List<string>();
 
         public async Task<HttpEndPointResult> GetResult()
         {
@@ -39,6 +41,8 @@ namespace XUnitTests.Core.Base
                 var requestMessage = CreateRequest();
 
                 AddHeadersToRequest(requestMessage);
+                Authorize(client, requestMessage);
+                RemoveRequestHeaders(requestMessage);
 
                 var response = await client.SendAsync(requestMessage);
 
@@ -62,6 +66,11 @@ namespace XUnitTests.Core.Base
             return httpEndpointResult;
         }
 
+        protected virtual void Authorize(HttpClient httpClient, HttpRequestMessage httpRequestMessage)
+        {
+            ExcludedRequestHeaders.Remove("Authorization");
+        }
+        
         public HttpEndPoint<TResponseModel> WithHeader(string header, string headerValue)
         {
             RequestHeaders.Add(header, headerValue);
@@ -79,6 +88,14 @@ namespace XUnitTests.Core.Base
             foreach (var header in RequestHeaders)
             {
                 requestMessage.Headers.Add(header.Key, header.Value);
+            }
+        }
+                
+        private void RemoveRequestHeaders(HttpRequestMessage requestMessage)
+        {
+            foreach (var header in ExcludedRequestHeaders)
+            {
+                requestMessage.Headers.Remove(header);
             }
         }
     }
