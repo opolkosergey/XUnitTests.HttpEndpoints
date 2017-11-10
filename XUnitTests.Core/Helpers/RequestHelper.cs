@@ -43,7 +43,7 @@ namespace XUnitTests.Core.Helpers
                     }
                     else
                     {
-                        AddModelValueAsParametr<T>(value, keyValueParameters, property);
+                        AddModelValueAsParameter<T>(value, keyValueParameters, property);
                     }
                 }
             }
@@ -51,7 +51,7 @@ namespace XUnitTests.Core.Helpers
             return keyValueParameters.Any() ? $"{requestUri}?{string.Join("&", keyValueParameters)}" : requestUri;
         }
 
-        private static void AddModelValueAsParametr<T>(object value, List<string> keyValueParameters, PropertyInfo property)
+        private static void AddModelValueAsParameter<T>(object value, List<string> keyValueParameters, PropertyInfo property)
         {
             if (value is IEnumerable)
             {

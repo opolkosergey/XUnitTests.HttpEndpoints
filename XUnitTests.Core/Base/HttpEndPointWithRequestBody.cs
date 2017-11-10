@@ -10,17 +10,16 @@ namespace XUnitTests.Core.Base
         public HttpEndPointWithRequestBody<TRequestBodyModel, TReponseModel> WithRequestBodyModel(TRequestBodyModel requestBodyModel)
         {
             Body = requestBodyModel;
-
             return this;
         }
 
-        protected override HttpRequestMessage CreateRequest()
+        protected override HttpRequestMessage CreateRequestMessage()
         {
-            var request = base.CreateRequest();
+            var requestMessage = base.CreateRequestMessage();
             
-            RequestHelper.AddRequestBody(request, Body);
+            RequestHelper.AddRequestBody(requestMessage, Body);
 
-            return request;
+            return requestMessage;
         }
     }
 }

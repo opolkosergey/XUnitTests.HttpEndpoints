@@ -11,18 +11,17 @@ namespace XUnitTests.Core.Base
         public HttpEndPointWithUrlRequestModel<TUrlRequestModel, TReponseModel> WithUrlRequestModel(TUrlRequestModel urlRequestModel)
         {
             UrlRequestModel = urlRequestModel;
-
             return this;
         }
 
-        protected override HttpRequestMessage CreateRequest()
+        protected override HttpRequestMessage CreateRequestMessage()
         {            
             if (string.IsNullOrEmpty(RequestUri))
             {
-                throw new ArgumentException($"Parametr {nameof(RequestUri)} is required.");
+                throw new ArgumentException($"Parameter {nameof(RequestUri)} is required.");
             }
 
-            string requestUri = RequestHelper.CreateUrlUsingRequestModel(RequestUri, UrlRequestModel) ?? "/";
+            var requestUri = RequestHelper.CreateUrlUsingRequestModel(RequestUri, UrlRequestModel) ?? "/";
 
             return new HttpRequestMessage(HttpMethod, requestUri);
         }

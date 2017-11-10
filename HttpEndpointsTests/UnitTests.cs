@@ -34,16 +34,18 @@ namespace HttpEndpointsTests
         [Fact]
         public async Task NotExistentEndpointTest()
         {
-            var endpoint = new NotExistentEndpoint()
-                .WithRequestBodyModel(new NotExistentEndpointRequestBodyModel
-                {
+            var endpoint = new NotExistentEndpoint()                    
+                .WithUrlRequestModel(new NotExistentEndpointRequestModel                
+                {                
+                    Id = 1,                    
+                    Symbol = "x",
+                    Pages = new []{ 1, 2 ,3 }
+                })                    
+                .WithRequestBodyModel(new NotExistentEndpointRequestBodyModel                                   
+                {                                       
                     Data = 4
                 })
-                .WithUrlRequestModel(new NotExistentEndpointRequestModel
-                {
-                    Id = 1,
-                    Symbol = "x"
-                });
+                .WithHeader("Cookie", "httponly");
 
             var result = await endpoint.GetResult();
 
