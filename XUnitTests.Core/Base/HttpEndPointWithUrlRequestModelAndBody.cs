@@ -26,16 +26,16 @@ namespace XUnitTests.Core.Base
 
         protected override HttpRequestMessage CreateRequest()
         {
-            var request = base.CreateRequest();
-            
-            RequestHelper.AddRequestBody(request, Body);
-
             if (string.IsNullOrEmpty(RequestUri))
             {
                 throw new ArgumentException($"Parametr {nameof(RequestUri)} is required.");
             }
 
             string requestUri = RequestHelper.CreateUrlUsingRequestModel(RequestUri, UrlRequestModel) ?? "/";
+
+            var request = new HttpRequestMessage(HttpMethod, requestUri);
+
+            RequestHelper.AddRequestBody(request, Body);
             
             return request;
         }               

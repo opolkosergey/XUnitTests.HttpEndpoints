@@ -1,7 +1,7 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using HttpEndpointsTests.EndPoints.GithubSearchEndpoint;
+using HttpEndpointsTests.EndPoints.NonExistentEndpoint;
 using HttpEndpointsTests.EndPoints.TutByHomePageEndPoint;
 using Xunit;
 
@@ -29,6 +29,25 @@ namespace HttpEndpointsTests
 
             Assert.Equal(HttpStatusCode.OK, result.HttpStatusCode);
             Assert.NotNull(result.ResponseModel);
+        }
+
+        [Fact]
+        public async Task NotExistentEndpointTest()
+        {
+            var endpoint = new NotExistentEndpoint()
+                .WithRequestBodyModel(new NotExistentEndpointRequestBodyModel
+                {
+                    Data = 4
+                })
+                .WithUrlRequestModel(new NotExistentEndpointRequestModel
+                {
+                    Id = 1,
+                    Symbol = "x"
+                });
+
+            var result = await endpoint.GetResult();
+
+            Assert.Equal(HttpStatusCode.NotFound, result.HttpStatusCode);            
         }
     }
 }

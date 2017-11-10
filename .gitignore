@@ -6,6 +6,7 @@ lib
 
 *~
 *.suo
+*.DotSettings.user
 *.csproj.user
 *.dll
 [Oo]bj/
