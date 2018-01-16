@@ -1,15 +1,18 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace XUnitTests.Core.Base
 {
     public abstract class HttpEndPoint<TResponseModel> where TResponseModel : class
-    {
+    {        
         public class HttpEndPointResult
         {
             public TResponseModel ResponseModel { get; set; }
@@ -25,9 +28,9 @@ namespace XUnitTests.Core.Base
 
         protected abstract HttpMethod HttpMethod { get; }
 
-        private Dictionary<string, string> RequestHeaders { get; } = new Dictionary<string, string>();
-        
-        private List<string> ExcludedRequestHeaders { get; } = new List<string>();
+        private bool UseDefaultAuthorization = true;
+
+        private Dictionary<string, string> RequestHeaders { get; } = new Dictionary<string, string>();       
 
         public async Task<HttpEndPointResult> GetResult()
         {
@@ -41,12 +44,10 @@ namespace XUnitTests.Core.Base
 
                 AddHeadersToRequest(requestMessage);
                 
-                if (!ExcludedRequestHeaders.Contains("Authorization") && ExcludedRequestHeaders.Contains("Cookie"))
+                if (UseDefaultAuthorization)
                 {
                     Authorize(client, requestMessage);
-                }
-                
-                RemoveRequestHeaders(requestMessage);
+                }                               
 
                 var response = await client.SendAsync(requestMessage);
 
@@ -54,6 +55,12 @@ namespace XUnitTests.Core.Base
             }
 
             return httpEndpointResult;
+        }
+
+        public HttpEndPoint<TResponseModel> PreventDefaultAuthorization()
+        {
+            UseDefaultAuthorization = false;
+            return this;
         }
 
         public HttpEndPoint<TResponseModel> WithHeader(string header, string headerValue)
@@ -68,9 +75,20 @@ namespace XUnitTests.Core.Base
             return this;
         }
 
-        protected virtual void Authorize(HttpClient httpClient, HttpRequestMessage httpRequestMessage) => ExcludedRequestHeaders.Remove("Authorization");       
+        protected virtual void Authorize(HttpClient httpClient, HttpRequestMessage httpRequestMessage) { }
 
-        protected virtual HttpRequestMessage CreateRequestMessage() => new HttpRequestMessage(HttpMethod, RequestUri ?? "/");
+        protected virtual HttpRequestMessage CreateRequestMessage()
+        {
+            return new HttpRequestMessage(HttpMethod, RequestUri ?? "/");
+        }
+
+        private void AddHeadersToRequest(HttpRequestMessage requestMessage)
+        {
+            foreach (var header in RequestHeaders)
+            {
+                requestMessage.Headers.Add(header.Key, header.Value);
+            }
+        }
 
         private async Task<HttpEndPointResult> CreateHttpEndPointResult(HttpResponseMessage response)
         {
@@ -82,36 +100,54 @@ namespace XUnitTests.Core.Base
 
             var content = await response.Content.ReadAsStringAsync();
 
-            TResponseModel responseModel;
+            httpEndpointResult.ResponseModel = GetResponseModel(response, content);
+
+            return httpEndpointResult;
+        }
+
+        private TResponseModel GetResponseModel(HttpResponseMessage response, string content)
+        {
+            TResponseModel responseModel = null;
+
             if (typeof(TResponseModel) == typeof(string))
             {
                 responseModel = content as TResponseModel;
             }
             else
             {
-                responseModel = JsonConvert.DeserializeObject<TResponseModel>(content);
+                IEnumerable<string> values;
+                response.Headers.TryGetValues("content-type", out values);                
+                string contentType = values?.SingleOrDefault() ?? "application/json";
+                responseModel = DeserializeResponseModel(contentType, content);                
             }
 
-            httpEndpointResult.ResponseModel = responseModel;
-            
-            return httpEndpointResult;
+            return responseModel;
         }
-        
-        private void AddHeadersToRequest(HttpRequestMessage requestMessage)
+
+        private TResponseModel DeserializeResponseModel(string contentType, string content)
         {
-            foreach (var header in RequestHeaders)
+            switch (contentType)
             {
-                requestMessage.Headers.Add(header.Key, header.Value);
+                case "application/json":
+                    return JsonConvert.DeserializeObject<TResponseModel>(content);
+                case "text/xml":
+                case "application/xml":
+                    return DeserializeAsXML(content);
+                default:
+                    throw new Exception("Unable to deserialize response content.");
             }
         }
 
-        private void RemoveRequestHeaders(HttpRequestMessage requestMessage) =>
-            ExcludedRequestHeaders.ForEach(header =>
+        private TResponseModel DeserializeAsXML(string content)
+        {
+            var serializer = new XmlSerializer(typeof(TResponseModel));
+            TResponseModel result;
+            using (var reader = new StringReader(content))
             {
-                if (requestMessage.Headers.Contains(header))
-                {
-                    requestMessage.Headers.Remove(header);
-                }                
-            });        
+                result = (TResponseModel)serializer.Deserialize(reader);
+            }
+
+            return result;
+        }     
     }
 }

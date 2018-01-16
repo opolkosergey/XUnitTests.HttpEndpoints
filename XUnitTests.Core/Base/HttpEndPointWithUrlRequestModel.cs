@@ -4,7 +4,8 @@ using XUnitTests.Core.Helpers;
 
 namespace XUnitTests.Core.Base
 {
-    public abstract class HttpEndPointWithUrlRequestModel<TUrlRequestModel, TReponseModel> : HttpEndPoint<TReponseModel> where TReponseModel : class
+    public abstract class HttpEndPointWithUrlRequestModel<TUrlRequestModel, TReponseModel> : HttpEndPoint<TReponseModel>
+        where TReponseModel : class         
     {
         private TUrlRequestModel UrlRequestModel { get; set; }
 

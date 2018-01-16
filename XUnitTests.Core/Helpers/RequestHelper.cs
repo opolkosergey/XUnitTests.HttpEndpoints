@@ -1,21 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
+using XUnitTests.Core.Interfaces;
 
 namespace XUnitTests.Core.Helpers
 {
     internal static class RequestHelper
     {
-        // TODO add parameter for content type.
-        public static void AddRequestBody(HttpRequestMessage httpRequestMessage, object body)
+        public static void AddRequestBody(HttpRequestMessage httpRequestMessage, ISerializableBodyModel requestBodyModel)
         {
-            if (body != null)
+            if (requestBodyModel != null)
             {
-                httpRequestMessage.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                httpRequestMessage.Content = new StringContent(requestBodyModel.Serialize(), Encoding.UTF8, requestBodyModel.GetContentType());
             }
         }
 
@@ -25,45 +25,50 @@ namespace XUnitTests.Core.Helpers
             {
                 return requestUri;
             }
-
-            var keyValueParameters = new List<string>();
-            var uriSegments = GetUriSegments(requestUri);
             
-            var properties = requestModel.GetType().GetProperties();            
+            var uriSegments = GetUriSegments(requestUri);
+
+            return GetQueryString(requestUri, requestModel, uriSegments);
+        }
+
+        private static string GetQueryString<T>(string requestUri, T requestModel, List<string> uriSegments)
+        {
+            var keyValueParameters = new List<string>();
+            var properties = requestModel.GetType().GetProperties();
             foreach (var property in properties)
             {
                 var value = property.GetValue(requestModel);
 
                 if (value != null)
                 {
-                    var uriSegment = uriSegments.SingleOrDefault(x => x == property.Name.ToLower());                    
+                    var uriSegment = uriSegments.SingleOrDefault(x => x == property.Name.ToLower());
                     if (uriSegment != null)
                     {
                         requestUri = requestUri.Replace("{" + uriSegment + "}", value.ToString());
                     }
                     else
                     {
-                        AddModelValueAsParameter<T>(value, keyValueParameters, property);
+                        AddValueToUrlParameters<T>(property.Name, value, keyValueParameters);
                     }
                 }
             }
-            
+
             return keyValueParameters.Any() ? $"{requestUri}?{string.Join("&", keyValueParameters)}" : requestUri;
         }
 
-        private static void AddModelValueAsParameter<T>(object value, List<string> keyValueParameters, PropertyInfo property)
+        private static void AddValueToUrlParameters<T>(string propertyName, object value, List<string> keyValueUrlParameters)
         {
             if (value is IEnumerable)
             {
                 var collection = value as IEnumerable;
                 foreach (var item in collection)
                 {
-                    keyValueParameters.Add($"{property.Name}={item.ToString()}");
+                    keyValueUrlParameters.Add($"{propertyName}={item.ToString()}");
                 }
             }
             else
             {
-                keyValueParameters.Add($"{property.Name}={value.ToString()}");
+                keyValueUrlParameters.Add($"{propertyName}={value.ToString()}");
             }
         }
 
@@ -73,13 +78,11 @@ namespace XUnitTests.Core.Helpers
 
             while (true)
             {
-                var startIndex = requestUri.IndexOf('{');
-                var endIndex = requestUri.IndexOf('}');
-
-                if (startIndex != -1 && endIndex != -1)
+                var uriSegment = GetUriSegment(requestUri);
+                if (uriSegment != null)
                 {
-                    uriSegments.Add(requestUri.Substring(startIndex + 1, endIndex - startIndex - 1).ToLower());                    
-                    requestUri = requestUri.Substring(endIndex + 1);
+                    uriSegments.Add(uriSegment.Item1.ToLower());                    
+                    requestUri = requestUri.Substring(uriSegment.Item3 + 1);
                 }
                 else
                 {
@@ -88,6 +91,16 @@ namespace XUnitTests.Core.Helpers
             }            
 
             return uriSegments;
+        }
+
+        private static Tuple<string, int, int> GetUriSegment(string requestUri)
+        {
+            var segmentStartIndex = requestUri.IndexOf('{');
+            var segmentEndIndex = requestUri.IndexOf('}');
+
+            return (segmentStartIndex != -1 && segmentEndIndex != -1)
+                ? Tuple.Create(requestUri.Substring(segmentStartIndex + 1, segmentEndIndex - segmentStartIndex - 1), segmentStartIndex, segmentEndIndex)
+                : null;            
         }
     }
 }

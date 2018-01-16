@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Net.Http;
 using XUnitTests.Core.Helpers;
+using XUnitTests.Core.Interfaces;
 
 namespace XUnitTests.Core.Base
 {
-    public abstract class HttpEndPointWithUrlRequestModelAndBody<TUrlRequestModel, TRequestBodyModel, TReponseModel> : HttpEndPoint<TReponseModel> where TReponseModel : class
+    public abstract class HttpEndPointWithUrlRequestModelAndBody<TUrlRequestModel, TRequestBodyModel, TReponseModel> : HttpEndPoint<TReponseModel>
+        where TRequestBodyModel : ISerializableBodyModel
+        where TReponseModel : class
     {
         private TUrlRequestModel UrlRequestModel { get; set; }
 
