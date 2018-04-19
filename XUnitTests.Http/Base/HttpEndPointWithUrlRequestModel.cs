@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
-using XUnitTests.Core.Helpers;
+using XUnitTests.Http.Helpers;
 
-namespace XUnitTests.Core.Base
+namespace XUnitTests.Http.Base
 {
     public abstract class HttpEndPointWithUrlRequestModel<TUrlRequestModel, TReponseModel> : HttpEndPoint<TReponseModel>
         where TReponseModel : class         

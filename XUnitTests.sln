@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpEndpointsTests", "HttpEndpointsTests\HttpEndpointsTests.csproj", "{ED4E9882-7138-4EC7-BBFB-84771D55C8AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTests.Core", "XUnitTests.Core\XUnitTests.Core.csproj", "{394300E5-2F50-4D29-BE7C-7EFB8B86F134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTests.Http", "XUnitTests.Http\XUnitTests.Http.csproj", "{394300E5-2F50-4D29-BE7C-7EFB8B86F134}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

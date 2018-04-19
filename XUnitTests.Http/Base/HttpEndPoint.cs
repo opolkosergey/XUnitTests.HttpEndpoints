@@ -1,27 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Net.Http;            
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+using XUnitTests.Http.Interfaces;
+using XUnitTests.Http.Models;
+using XUnitTests.Http.ResponseDeserializers;
 
-namespace XUnitTests.Core.Base
+namespace XUnitTests.Http.Base
 {
     public abstract class HttpEndPoint<TResponseModel> where TResponseModel : class
     {        
-        public class HttpEndPointResult
-        {
-            public TResponseModel ResponseModel { get; set; }
-
-            public HttpResponseHeaders ResponseHeaders { get; set; }
-
-            public HttpStatusCode HttpStatusCode { get; set; }
-        }
-
         protected abstract string Uri { get; }
 
         protected abstract string RequestUri { get; }
@@ -32,29 +21,25 @@ namespace XUnitTests.Core.Base
 
         private Dictionary<string, string> RequestHeaders { get; } = new Dictionary<string, string>();       
 
-        public async Task<HttpEndPointResult> GetResult()
+        public async Task<HttpEndPointResult<TResponseModel>> GetResult()
         {
-            HttpEndPointResult httpEndpointResult;
-
-            using (var client = new HttpClient())
+            using(var httpClient = new HttpClient())
             {
-                client.BaseAddress = new Uri(Uri, UriKind.Absolute);
-                
+                httpClient.BaseAddress = new Uri(Uri, UriKind.Absolute);
+
                 var requestMessage = CreateRequestMessage();
 
                 AddHeadersToRequest(requestMessage);
-                
+
                 if (UseDefaultAuthorization)
                 {
-                    Authorize(client, requestMessage);
-                }                               
+                    Authorize(httpClient, requestMessage);
+                }
 
-                var response = await client.SendAsync(requestMessage);
+                var response = await httpClient.SendAsync(requestMessage);
 
-                httpEndpointResult = await CreateHttpEndPointResult(response);
+                return await CreateHttpEndPointResult(response);
             }
-
-            return httpEndpointResult;
         }
 
         public HttpEndPoint<TResponseModel> PreventDefaultAuthorization()
@@ -75,7 +60,7 @@ namespace XUnitTests.Core.Base
             return this;
         }
 
-        protected virtual void Authorize(HttpClient httpClient, HttpRequestMessage httpRequestMessage) { }
+        protected virtual void Authorize(HttpClient httpClient, HttpRequestMessage httpRequestMessage){ }
 
         protected virtual HttpRequestMessage CreateRequestMessage()
         {
@@ -83,16 +68,16 @@ namespace XUnitTests.Core.Base
         }
 
         private void AddHeadersToRequest(HttpRequestMessage requestMessage)
-        {
+        {            
             foreach (var header in RequestHeaders)
             {
                 requestMessage.Headers.Add(header.Key, header.Value);
             }
         }
 
-        private async Task<HttpEndPointResult> CreateHttpEndPointResult(HttpResponseMessage response)
+        private async Task<HttpEndPointResult<TResponseModel>> CreateHttpEndPointResult(HttpResponseMessage response)
         {
-            var httpEndpointResult = new HttpEndPointResult
+            var httpEndpointResult = new HttpEndPointResult<TResponseModel>
             {
                 ResponseHeaders = response.Headers,
                 HttpStatusCode = response.StatusCode
@@ -115,8 +100,7 @@ namespace XUnitTests.Core.Base
             }
             else
             {
-                IEnumerable<string> values;
-                response.Headers.TryGetValues("content-type", out values);                
+                response.Headers.TryGetValues("content-type", out var values);                
                 string contentType = values?.SingleOrDefault() ?? "application/json";
                 responseModel = DeserializeResponseModel(contentType, content);                
             }
@@ -126,28 +110,23 @@ namespace XUnitTests.Core.Base
 
         private TResponseModel DeserializeResponseModel(string contentType, string content)
         {
+            var desealizer = GetResponseDesealizer(contentType);
+
+            return desealizer.Deserialize<TResponseModel>(content);
+        }
+        
+        private IResponseDeserializer GetResponseDesealizer(string contentType)
+        {
             switch (contentType)
             {
                 case "application/json":
-                    return JsonConvert.DeserializeObject<TResponseModel>(content);
+                    return new JsonDeserializer();
                 case "text/xml":
                 case "application/xml":
-                    return DeserializeAsXML(content);
+                    return new XmlDeserializer();
                 default:
-                    throw new Exception("Unable to deserialize response content.");
+                    throw new Exception($"Unable to deserialize response content with '{contentType}' content type.");
             }
         }
-
-        private TResponseModel DeserializeAsXML(string content)
-        {
-            var serializer = new XmlSerializer(typeof(TResponseModel));
-            TResponseModel result;
-            using (var reader = new StringReader(content))
-            {
-                result = (TResponseModel)serializer.Deserialize(reader);
-            }
-
-            return result;
-        }     
     }
 }

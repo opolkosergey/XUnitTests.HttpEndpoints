@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net.Http;
-using XUnitTests.Core.Helpers;
-using XUnitTests.Core.Interfaces;
+using XUnitTests.Http.Helpers;
+using XUnitTests.Http.Interfaces;
 
-namespace XUnitTests.Core.Base
+namespace XUnitTests.Http.Base
 {
     public abstract class HttpEndPointWithUrlRequestModelAndBody<TUrlRequestModel, TRequestBodyModel, TReponseModel> : HttpEndPoint<TReponseModel>
         where TRequestBodyModel : ISerializableBodyModel

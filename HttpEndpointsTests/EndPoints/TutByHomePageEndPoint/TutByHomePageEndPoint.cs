@@ -1,5 +1,5 @@
 ﻿using System.Net.Http;
-using XUnitTests.Core.Base;
+using XUnitTests.Http.Base;
 
 namespace HttpEndpointsTests.EndPoints.TutByHomePageEndPoint
 {

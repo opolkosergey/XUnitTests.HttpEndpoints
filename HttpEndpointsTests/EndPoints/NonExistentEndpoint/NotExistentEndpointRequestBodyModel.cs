@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using XUnitTests.Core.Interfaces;
+using XUnitTests.Http.Interfaces;
 
 namespace HttpEndpointsTests.EndPoints.NonExistentEndpoint
 {

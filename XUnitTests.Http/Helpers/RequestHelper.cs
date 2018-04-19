@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using XUnitTests.Core.Interfaces;
+using XUnitTests.Http.Interfaces;
 
-namespace XUnitTests.Core.Helpers
+namespace XUnitTests.Http.Helpers
 {
     internal static class RequestHelper
     {
